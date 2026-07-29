@@ -584,51 +584,47 @@ export default function App() {
               )}
             </div>
 
-            {marketStatus === "done" && (
-              <>
-                <div className="spx-card">
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 14 }}>
-                    {MARKET_SYMBOLS.map((m) => {
-                      const q = marketQuotes[m.key];
-                      if (!q) return null;
-                      return (
-                        <div key={m.key} style={{ background: COLORS.paper, borderRadius: 4, padding: "12px 14px" }}>
-                          <div className="spx-label">{m.label}</div>
-                          <div className="spx-num" style={{ fontSize: 20, fontWeight: 600 }}>{q.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
-                          <div className="spx-num" style={{ fontSize: 12, color: q.changePercent >= 0 ? COLORS.forest : COLORS.red }}>
-                            {q.changePercent >= 0 ? "+" : ""}{q.changePercent.toFixed(2)}%
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="spx-card">
-                  <div className="spx-card-title">กราฟราคาจริงย้อนหลัง 12 เดือน</div>
-                  {MARKET_SYMBOLS.map((m) => {
-                    const s = marketSeries[m.key];
-                    if (!s || s.length === 0) return null;
-                    return (
-                      <div key={m.key} style={{ marginBottom: 20 }}>
-                        <div className="spx-label">{m.label}</div>
-                        <div style={{ width: "100%", height: 140 }}>
-                          <ResponsiveContainer>
-                            <AreaChart data={s} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
-                              <CartesianGrid stroke={COLORS.rule} strokeDasharray="2 4" vertical={false} />
-                              <XAxis dataKey="date" tick={{ fontSize: 9, fill: COLORS.muted }} axisLine={{ stroke: COLORS.rule }} tickLine={false} />
-                              <YAxis tick={{ fontSize: 10, fill: COLORS.muted }} axisLine={false} tickLine={false} width={60} domain={["auto", "auto"]} />
-                              <Tooltip contentStyle={{ fontSize: 12 }} />
-                              <Area type="monotone" dataKey="close" stroke={COLORS.forest} fill={COLORS.forest} fillOpacity={0.12} strokeWidth={1.5} />
-                            </AreaChart>
-                          </ResponsiveContainer>
-                        </div>
+            <div className="spx-card">
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 14 }}>
+                {MARKET_SYMBOLS.map((m) => {
+                  const q = marketQuotes[m.key];
+                  if (!q) return null;
+                  return (
+                    <div key={m.key} style={{ background: COLORS.paper, borderRadius: 4, padding: "12px 14px" }}>
+                      <div className="spx-label">{m.label}</div>
+                      <div className="spx-num" style={{ fontSize: 20, fontWeight: 600 }}>{q.price.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div>
+                      <div className="spx-num" style={{ fontSize: 12, color: q.changePercent >= 0 ? COLORS.forest : COLORS.red }}>
+                        {q.changePercent >= 0 ? "+" : ""}{q.changePercent.toFixed(2)}%
                       </div>
-                    );
-                  })}
-                </div>
-              </>
-            )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="spx-card">
+              <div className="spx-card-title">กราฟราคาจริงย้อนหลัง 12 เดือน</div>
+              {MARKET_SYMBOLS.map((m) => {
+                const s = marketSeries[m.key];
+                if (!s || s.length === 0) return null;
+                return (
+                  <div key={m.key} style={{ marginBottom: 20 }}>
+                    <div className="spx-label">{m.label}</div>
+                    <div style={{ width: "100%", height: 140 }}>
+                      <ResponsiveContainer>
+                        <AreaChart data={s} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
+                          <CartesianGrid stroke={COLORS.rule} strokeDasharray="2 4" vertical={false} />
+                          <XAxis dataKey="date" tick={{ fontSize: 9, fill: COLORS.muted }} axisLine={{ stroke: COLORS.rule }} tickLine={false} />
+                          <YAxis tick={{ fontSize: 10, fill: COLORS.muted }} axisLine={false} tickLine={false} width={60} domain={["auto", "auto"]} />
+                          <Tooltip contentStyle={{ fontSize: 12 }} />
+                          <Area type="monotone" dataKey="close" stroke={COLORS.forest} fill={COLORS.forest} fillOpacity={0.12} strokeWidth={1.5} />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </>
         )}
 
@@ -673,6 +669,7 @@ export default function App() {
         <div style={{ fontSize: 11, color: COLORS.muted, marginTop: 8, textAlign: "center" }}>
           ตัวเลขเป็นการประมาณการโดยอิงสมมติฐานที่กำหนดเอง ไม่ใช่คำแนะนำการ...
           กราฟ Drawdown เป็นการจำลอง ไม่ใช่ราคาย้อนหลังจริง
+          <div style={{ fontSize: 10, color: COLORS.muted, marginTop: 6 }}>This website was created by Hex.</div>
         </div>
       </div>
     </div>
