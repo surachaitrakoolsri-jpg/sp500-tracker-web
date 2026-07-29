@@ -261,8 +261,6 @@ export default function App() {
       <style>{`
         .spx-num { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
         .spx-display { font-family: 'Fraunces', serif; }
-        .spx-marquee-track { display: inline-block; animation: spx-scroll 26s linear infinite; }
-        @keyframes spx-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         .spx-input { font-family: 'IBM Plex Mono', monospace; border: 1px solid ${COLORS.rule}; background: #fff;
           padding: 8px 10px; border-radius: 3px; width: 100%; box-sizing: border-box; font-size: 14px; color: ${COLORS.ink}; }
         .spx-input:focus { outline: 2px solid ${COLORS.gold}; outline-offset: 1px; }
@@ -288,7 +286,7 @@ export default function App() {
       `}</style>
 
       <div className="spx-no-print" style={{ background: COLORS.forestDark, color: COLORS.goldLight, overflow: "hidden", padding: "9px 0", borderBottom: `2px solid ${COLORS.gold}` }}>
-        <div className="spx-num spx-marquee-track" style={{ whiteSpace: "nowrap", fontSize: 13 }}>
+        <div className="spx-num spx-marquee-track" style={{ fontSize: 13 }}>
           {[...Array(2)].map((_, rep) => (
             <span key={rep}>
               <span style={{ marginRight: 48 }}>S&P500 ผลตอบแทนเฉลี่ย {rate.toFixed(1)}% ต่อปี</span>
@@ -365,7 +363,7 @@ export default function App() {
                 <div style={{ fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: COLORS.goldLight, marginBottom: 6 }}>
                   มูลค่าพอร์ตโดยประมาณ ปีที่ {years}
                 </div>
-                <div className="spx-display spx-num" style={{ fontSize: 40, fontWeight: 600 }}>{fmt(projectedValue, currency)}</div>
+                <div className="spx-num" style={{ fontSize: 40, fontWeight: 600 }}>{fmt(projectedValue, currency)}</div>
               </div>
               <div style={{ display: "flex", gap: 28 }}>
                 <div>
@@ -374,7 +372,7 @@ export default function App() {
                 </div>
                 <div>
                   <div style={{ fontSize: 11, color: COLORS.goldLight, textTransform: "uppercase", letterSpacing: "0.06em" }}>ผลตอบแทนสะสม</div>
-                  <div className="spx-num" style={{ fontSize: 18 }}>{fmt(totalGrowth, currency)}</div>
+                  <div className="spx-num" style={{ fontSize: 18, color: COLORS.forest }}>{fmt(totalGrowth, currency)}</div>
                 </div>
               </div>
             </div>
@@ -429,7 +427,7 @@ export default function App() {
 
               <div style={{ borderTop: `1px solid ${COLORS.rule}`, paddingTop: 14, fontSize: 14, lineHeight: 1.6 }}>
                 {reqMonthly <= 0 ? (
-                  <span>เงินลงทุนเริ่มต้นเพียงอย่างเดียวก็เติบโตถึงเป้าหมายนี้ได้ภายใน {years} ปี ด้วยผลตอบแทน {rate}% ต่อปี</span>
+                  <span>เงินลงทุนเริ่มต้นเพียงอย่างเดียวก็เติบโตถึงเป้าหมายนี้ได้ครับ</span>
                 ) : (
                   <span>
                     หากต้องการให้พอร์ตแตะ <b className="spx-num">{fmt(goal, currency)}</b> ภายใน {years} ปี
@@ -472,7 +470,7 @@ export default function App() {
             <div className="spx-card">
               <div className="spx-card-title">สัดส่วนพอร์ตหลายสินทรัพย์</div>
               <div style={{ fontSize: 12, color: COLORS.muted, marginBottom: 16 }}>
-                ปรับสัดส่วนแต่ละสินทรัพย์ (รวมกันจะถูกปรับให้เป็น 100% อัตโนมัติ) ตัวเลขผลตอบแทน/ความผันผวนเป็นค่าอ้างอิงระยะยาวโดยประมาณ
+                ปรับสัดส่วนแต่ละสินทรัพย์ (รวมกันจะถูกปรับให้เป็น 100% อัตโนมัติ) ตั...
               </div>
               {ASSETS.map((a) => (
                 <div key={a.key} style={{ marginBottom: 14 }}>
@@ -502,7 +500,7 @@ export default function App() {
               </div>
               <div style={{ flex: 1, minWidth: 200 }}>
                 <div className="spx-label">ผลตอบแทนพอร์ตผสม (คาดการณ์)</div>
-                <div className="spx-display spx-num" style={{ fontSize: 32, color: COLORS.forest, marginBottom: 12 }}>{pct(blendedReturn)}</div>
+                <div className="spx-num" style={{ fontSize: 32, color: COLORS.forest, marginBottom: 12 }}>{pct(blendedReturn)}</div>
                 <div className="spx-label">ความผันผวนพอร์ตผสม (โดยประมาณ)</div>
                 <div className="spx-num" style={{ fontSize: 18 }}>{pct(blendedVol)}</div>
                 <button className="spx-btn spx-no-print" style={{ marginTop: 16 }} onClick={() => { setRate(Math.round(blendedReturn * 10) / 10); setTab("overview"); }}>
@@ -517,8 +515,8 @@ export default function App() {
           <div className="spx-card">
             <div className="spx-card-title">Drawdown จำลอง (ประมาณการ ไม่ใช่ข้อมูลราคาจริง)</div>
             <div style={{ fontSize: 12, color: COLORS.muted, marginBottom: 12 }}>
-              กราฟจำลองเส้นทางผลตอบแทนรายเดือนแบบสุ่ม โดยอิงผลตอบแทนและความผันผวนของพอร์ตผสมจากแท็บ "พอร์ตหลายสินทรัพย์"
-              เพื่อประเมินว่าพอร์ตอาจติดลบจากจุดสูงสุดมากเพียงใดระหว่างทาง เส้นทางจริงในอนาคตจะแตกต่างจากนี้
+              กราฟจำลองเส้นทางผลตอบแทนรายเดือนแบบสุ่ม โดยอิงผลตอบแทนและความผ...
+              เพื่อประเมินว่าพอร์ตอาจติดลบจากจุดสูงสุดมากเพียงใดระหว่างทาง เ...
             </div>
             <div style={{ display: "flex", gap: 24, marginBottom: 16 }}>
               <div>
@@ -548,10 +546,10 @@ export default function App() {
           <div className="spx-card">
             <div className="spx-card-title">เปรียบเทียบผลตอบแทน 8% / 10% / 12% และพอร์ตของคุณ</div>
             <div style={{ display: "flex", gap: 16, marginBottom: 8, fontSize: 12, color: COLORS.muted, flexWrap: "wrap" }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.red, display: "inline-block" }} />8% ({fmt(scenarioData[scenarioData.length - 1].r8, currency)})</span>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.muted, display: "inline-block" }} />10% ({fmt(scenarioData[scenarioData.length - 1].r10, currency)})</span>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.gold, display: "inline-block" }} />12% ({fmt(scenarioData[scenarioData.length - 1].r12, currency)})</span>
-              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.forest, display: "inline-block" }} />พอร์ตของคุณ {pct(blendedReturn)} ({fmt(scenarioData[scenarioData.length - 1].rPortfolio, currency)})</span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.red, display: "inline-block" }} />8% ({fmt(scenarioData[scenarioDa...}
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.muted, display: "inline-block" }} />10% ({fmt(scenarioData[scenari...}
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.gold, display: "inline-block" }} />12% ({fmt(scenarioData[scenario...}
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}><span style={{ width: 10, height: 2, background: COLORS.forest, display: "inline-block" }} />พอร์ตของค...
             </div>
             <div style={{ width: "100%", height: 280 }}>
               <ResponsiveContainer>
@@ -575,8 +573,8 @@ export default function App() {
             <div className="spx-card">
               <div className="spx-card-title">ราคาตลาดจริง (Live, via Twelve Data API)</div>
               <div style={{ fontSize: 12, color: COLORS.muted, marginBottom: 16, lineHeight: 1.6 }}>
-                ดึงราคาจริงแบบสดจาก Twelve Data — S&P500 และ NASDAQ100 ใช้ ETF ตัวแทน (SPY / QQQ) ที่ราคาเคลื่อนไหวใกล้เคียงดัชนีจริงมาก
-                ส่วน Bitcoin และทองคำดึงตรงจาก BTC/USD และ XAU/USD ต้องตั้งค่า API key ในไฟล์ .env ก่อนใช้งาน (ดูวิธีใน README)
+                ดึงราคาจริงแบบสดจาก Twelve Data — S&P500 และ NASDAQ100 ใช้ ETF ตัวแทน (SPY / QQQ) ที่ราคาเคลื่...
+                ส่วน Bitcoin และทองคำดึงตรงจาก BTC/USD และ XAU/USD ต้องตั้งค่า API key ในไฟล์ .env ก่อนใช้...
               </div>
               <button className="spx-btn spx-no-print" onClick={loadMarketData} disabled={marketStatus === "loading"}>
                 {marketStatus === "loading" ? "กำลังดึงข้อมูล..." : "ดึงราคาล่าสุด"}
@@ -662,9 +660,9 @@ export default function App() {
               <div style={{ marginTop: 20, borderTop: `1px solid ${COLORS.rule}`, paddingTop: 16 }}>
                 <div className="spx-label">พบธุรกรรม {csvSummary.count} รายการ ครอบคลุม {csvSummary.monthsSpan} เดือน</div>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px,1fr))", gap: 12, margin: "10px 0 16px" }}>
-                  <div><div className="spx-label" style={{ marginBottom: 2 }}>เงินสุทธิที่นำเข้า</div><div className="spx-num" style={{ fontSize: 16 }}>{fmt(csvSummary.totalNet, currency)}</div></div>
-                  <div><div className="spx-label" style={{ marginBottom: 2 }}>เงินลงทุนเริ่มต้น (โดยประมาณ)</div><div className="spx-num" style={{ fontSize: 16 }}>{fmt(csvSummary.derivedInitial, currency)}</div></div>
-                  <div><div className="spx-label" style={{ marginBottom: 2 }}>DCA เฉลี่ยต่อเดือน (โดยประมาณ)</div><div className="spx-num" style={{ fontSize: 16 }}>{fmt(csvSummary.derivedMonthly, currency)}</div></div>
+                  <div><div className="spx-label" style={{ marginBottom: 2 }}>เงินสุทธิที่นำเข้า</div><div className="spx-num" style={{ fontSize: 16 }}>{fmt(csvSumm[...}</div>
+                  <div><div className="spx-label" style={{ marginBottom: 2 }}>เงินลงทุนเริ่มต้น (โดยประมาณ)</div><div className="spx-num" style={{ f...</div>
+                  <div><div className="spx-label" style={{ marginBottom: 2 }}>DCA เฉลี่ยต่อเดือน (โดยประมาณ)</div><div className="spx-num" style={{ fontSi...</div>
                 </div>
                 <button className="spx-btn" onClick={applyCsvValues}>ใช้ค่านี้ในเครื่องคำนวณ (ไปที่ภาพรวม)</button>
               </div>
@@ -673,7 +671,7 @@ export default function App() {
         )}
 
         <div style={{ fontSize: 11, color: COLORS.muted, marginTop: 8, textAlign: "center" }}>
-          ตัวเลขเป็นการประมาณการโดยอิงสมมติฐานที่กำหนดเอง ไม่ใช่คำแนะนำการลงทุน ผลตอบแทนในอดีตไม่ได้การันตีผลตอบแทนในอนาคต
+          ตัวเลขเป็นการประมาณการโดยอิงสมมติฐานที่กำหนดเอง ไม่ใช่คำแนะนำการ...
           กราฟ Drawdown เป็นการจำลอง ไม่ใช่ราคาย้อนหลังจริง
         </div>
       </div>
